@@ -1,0 +1,38 @@
+name: Phaser web
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build web
+    env:
+      my_secret: ${{ secrets.ACCESS_TOKEN }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "npm"
+      - name: Install Dependencies
+        run: npm install
+        working-directory: .
+      - name: Build web
+        run: npm run build
+        working-directory: .
+      - name: Deploy
+        run: |
+          cd www
+          git init
+          git config --global user.email harshitha@sutara.org
+          git config --global user.name  harshitha
+          git remote add origin https://${{ secrets.ACCESS_TOKEN }}@github.com/chimple/2-dots-challenge.git
+          git checkout -b web
+          git add .
+          git commit -m "created web"
+          #git push --force secure-origin web
+          #git push --set-upstream origin gh-pages 
+          git push origin web -f

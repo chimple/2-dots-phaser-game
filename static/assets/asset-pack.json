@@ -1,0 +1,67 @@
+{
+  "section1": {
+    "files": [
+      {
+        "url": "assets/Bluegoingdown.png",
+        "type": "image",
+        "key": "blue1"
+      },
+      {
+        "url": "assets/Bluegoingup.png",
+        "type": "image",
+        "key": "blue2"
+      },
+      {
+        "url": "assets/redgoingdown.png",
+        "type": "image",
+        "key": "red1"
+      },
+      {
+        "url": "assets/redgoingup.png",
+        "type": "image",
+        "key": "red2"
+      },
+      {
+        "url": "assets/blueball.png",
+        "type": "image",
+        "key": "blueball"
+      },
+      {
+        "url": "assets/redball.png",
+        "type": "image",
+        "key": "redball"
+      },
+      {
+        "url": "assets/gameName4.png",
+        "type": "image",
+        "key": "gameName"
+      },
+      {
+        "url": ["assets/tap.mp3"],
+        "type": "audio",
+        "key": "tap"
+      },
+      {
+        "url": ["assets/collide.wav"],
+        "type": "audio",
+        "key": "collide"
+      },
+      {
+        "url": ["assets/gameover.wav"],
+        "type": "audio",
+        "key": "gameover"
+      },
+      {
+        "url": ["assets/playbutton.png"],
+        "type": "image",
+        "key": "playButton"
+      }
+    ]
+  },
+  "meta": {
+    "app": "Phaser Editor 2D - Asset Pack Editor",
+    "contentType": "phasereditor2d.pack.core.AssetContentType",
+    "url": "https://phasereditor2d.com",
+    "version": 2
+  }
+}
