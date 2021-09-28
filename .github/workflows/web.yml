@@ -3,7 +3,7 @@ name: Phaser web
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   build:
     name: Build web
