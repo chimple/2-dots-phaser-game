@@ -1,5 +1,5 @@
 {
-  "name": "org.chimple.Phaser-2-dots-challenge",
+  "name": "org.chimple.2-dots-phaser-game",
   "displayName": "2 Dots Challenge",
   "version": "1.0.0",
   "description": "A simple HTML5 game development using Phaser 3.",
