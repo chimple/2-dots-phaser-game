@@ -1,7 +1,8 @@
 # 2-Dots-challenge
 
  A simple HTML5 game development using Phaser 3.
-
+## Demo
+For demo click https://chimple.github.io/2-dots-phaser-game/
 
 ## Installation
 
