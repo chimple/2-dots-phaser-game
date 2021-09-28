@@ -27,8 +27,8 @@ jobs:
         run: |
           cd www
           git init
-          git config --global user.email harshitha@sutara.org
-          git config --global user.name  Mary-Harshitha
+          git config --global user.email prakash@sutara.org
+          git config --global user.name  bhanugummana
           git remote add origin https://${{ secrets.ACCESS_TOKEN }}@github.com/chimple/Phaser-2-dots-challenge.git
           git checkout -b web
           git add .
