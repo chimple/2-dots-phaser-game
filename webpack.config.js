@@ -31,7 +31,7 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        static: path.resolve(__dirname, "./www"),
+        contentBase: path.resolve(__dirname, "./www"),
         open: true,
         hot: true,
         port: 8080,
