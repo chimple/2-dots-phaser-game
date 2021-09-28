@@ -151,7 +151,7 @@ export default class Dot extends Phaser.Scene {
         score: this.score,
         isGameOver: true,
       });
-      this.scene.remove("Pong");
+      this.scene.remove("Dot");
     }, 1000);
 }
 }
@@ -218,7 +218,7 @@ export default class Dot extends Phaser.Scene {
           score: this.score,
           isGameOver: true,
         });
-        this.scene.remove("Pong");
+        this.scene.remove("Dot");
       }, 1000);
     }
   }
