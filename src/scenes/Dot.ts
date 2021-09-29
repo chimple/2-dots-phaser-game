@@ -15,13 +15,11 @@ export default class Dot extends Phaser.Scene {
   private tween: Phaser.Tweens.Tween;
   private highScore: any;
   private localStorageName = "highScore";
-  private isFirst = true;
   private isBlue = true;
-  private isEnd = true;
   private tweenBall1: Phaser.Tweens.Tween;
   private tweenBall2: Phaser.Tweens.Tween;
   private timer: any
-  private counter = 5;
+  private counter = 3;
   private timeUP: any;
   private timeText: any;
 
@@ -30,12 +28,10 @@ export default class Dot extends Phaser.Scene {
     this.height = this.scale.height;
     this.startY = this.height / 4;
     this.distance = this.height * 0.75;
-    this.player = this.add
-      .image(this.width / 2, this.distance - 40 , "blue1")
-      .setData('color', 'blue')
-      .setScale(0.5);
+    this.createPlayer();
     this.ball1 = this.add
       .image(this.width / 2.5, this.startY, "blueball")
+      .setTexture('blueball')
       .setScale(0.5);
     this.ball1.setData('color', 'blue');
     this.ball2 = this.add
@@ -52,7 +48,7 @@ export default class Dot extends Phaser.Scene {
       this.timeText = this.make.text({
         x: this.width / 2.2,
         y: this.height * 0.08,
-        text: '5',
+        text: '3',
         style: {
             fontSize: '45px',
             color: '#000000',
@@ -95,23 +91,7 @@ export default class Dot extends Phaser.Scene {
           Phaser.Actions.RotateAround([this.ball2], { x: (this.width / 2.5) + 60, y: this.startY   }, 0.07)
   });
 
-    this.tween = this.tweens.add({
-      timeScale: 1,
-      anchor: 0.5,
-      targets: this.player,
-      x: this.width / 2,
-      y: this.startY + 83 ,
-      yoyo: true,
-      onComplete: () => {
-        this.isEnd = true;
-        if (this.isFirst) {
-          this.isFirst = false;
-        } else {
-          this.onCollition(true);
-        }
-      },
-      paused: true
-    });
+    
 
     this.timer = this.time.addEvent({
       callback: this.timerEventCallBack,
@@ -156,13 +136,56 @@ export default class Dot extends Phaser.Scene {
 }
 }
 
-  onCollition(isUp: boolean) {
+  createPlayer() {
+    this.player = this.add
+      .image(this.width / 2, this.distance - 40 , "blue2")
+      .setData('color', 'blue')
+      .setScale(0.5);
+      this.tween = this.tweens.add({
+        duration: 400,
+        targets: this.player,
+        x: this.width / 2,
+        y: this.startY + 83 ,
+        yoyo: false,
+        onComplete: () => {
+          this.onCollition();
+        },
+        paused: true
+      });
+      const value = Phaser.Math.Between(0, 1);
+      if (value === 0) {
+        this.isBlue = true;
+        this.player.setTexture("blue2").setData('color', 'blue');
+      } else {
+        this.isBlue = false;
+        this.player.setTexture("red2").setData('color', 'red');
+      }
+  }
+
+  onCollition() {
     var isSameColor : boolean;
+    var playerPos = this.width/2 + (this.startY + 83)
+    var ball1Pos = this.ball1.x + this.ball1.y;
+    var ball2Pos = this.ball2.x + this.ball2.y;
     this.sound.play("collide");
-    if((this.width / 2- this.ball1.x) > (this.ball2.x - this.width / 2) ) {
+    if((playerPos - ball1Pos) > (playerPos - ball2Pos) ) {
       if(this.ball2.getData('color') === 
       this.player.getData('color')) {
+        var particle = this.add.particles('redball')
+        var emitter = particle.createEmitter({
+          alpha: 0.5,
+          speed: 60,
+          blendMode: 'MULTIPLY',
+          x: this.width/2,
+          y: this.startY - 10,
+          lifespan: 0.05
+        });
+        emitter.setScale(1.5);
+        
         isSameColor = true;
+        this.time.delayedCall(500, function() {
+          particle.destroy();
+      });
       }
       else {
         isSameColor = false;
@@ -171,29 +194,37 @@ export default class Dot extends Phaser.Scene {
     else {
       if(this.ball1.getData('color') === 
       this.player.getData('color')) {
+        var particle = this.add.particles('blueball')
+        var emitter = particle.createEmitter({
+          alpha: 0.5,
+          speed: 60,
+          blendMode: 'MULTIPLY',
+          x: this.width/2,
+          y: this.startY - 10,
+          lifespan: 0.05
+        });
+        emitter.setScale(1.5);
+        
         isSameColor = true;
+        this.time.delayedCall(500, function() {
+          particle.destroy();
+      });
       }
       else {
         isSameColor = false;
       }
     }
-    console.log(this.width / 2);
-    console.log(this.ball1.x);
-    console.log(this.ball2.x);
+    console.log(playerPos);
+    console.log(ball1Pos);
+    console.log(ball2Pos);
     console.log(isSameColor);
     if (isSameColor) {
       this.score++;
       this.scoreBoard.setText(
         (this.score < 10 ? "0" : "") + this.score.toString()
       );
-      const value = Phaser.Math.Between(0, 1);
-      if (value === 0) {
-        this.isBlue = true;
-        this.player.setTexture(isUp ? "blue1" : "blue2").setData('color', 'blue');
-      } else {
-        this.isBlue = false;
-        this.player.setTexture(isUp ? "red1" : "red2").setData('color', 'red');
-      }
+      this.player.destroy();
+      this.createPlayer(); 
     } else {
       if (Number(this.highScore) < this.score) {
         localStorage.setItem(this.localStorageName, this.score.toString());
@@ -223,7 +254,7 @@ export default class Dot extends Phaser.Scene {
   }
   onClick() {
     this.sound.play("tap");
-    this.counter = 5;
+    this.counter = 3;
     this.tween.play();
   }
 }
