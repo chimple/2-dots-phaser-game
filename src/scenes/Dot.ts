@@ -82,7 +82,7 @@ export default class Dot extends Phaser.Scene {
         repeat: -1,
         ease: 'Quintic.easeInOut',
         onUpdate: () =>
-            Phaser.Actions.RotateAround([this.ball1], { x: (this.width / 2.5) + 51, y: this.startY }, 0.07)
+            Phaser.Actions.RotateAround([this.ball1], { x: (this.width / 2.5) + 57, y: this.startY }, 0.07)
     });
 
     this.tweenBall2 = this.tweens.add({
@@ -97,7 +97,7 @@ export default class Dot extends Phaser.Scene {
 
     this.tween = this.tweens.add({
       timeScale: 1,
-      anchor: 0.0,
+      anchor: 0.5,
       targets: this.player,
       x: this.width / 2,
       y: this.startY + 83 ,
