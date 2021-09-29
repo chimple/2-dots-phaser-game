@@ -50,7 +50,7 @@ export default class Dot extends Phaser.Scene {
       .setOrigin(0.5, 0);
 
       this.timeText = this.make.text({
-        x: this.width / 2,
+        x: this.width / 2.2,
         y: this.height * 0.08,
         text: '10',
         style: {
@@ -100,7 +100,7 @@ export default class Dot extends Phaser.Scene {
       anchor: 0.0,
       targets: this.player,
       x: this.width / 2,
-      y: this.startY + 85 ,
+      y: this.startY + 80 ,
       yoyo: true,
       onComplete: () => {
         this.isEnd = true;
