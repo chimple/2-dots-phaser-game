@@ -178,12 +178,12 @@ export default class Dot extends Phaser.Scene {
           blendMode: 'MULTIPLY',
           x: this.width/2,
           y: this.startY - 10,
-          lifespan: 0.05
+          lifespan: 0.005
         });
         emitter.setScale(1.5);
         
         isSameColor = true;
-        this.time.delayedCall(500, function() {
+        this.time.delayedCall(300, function() {
           particle.destroy();
       });
       }
