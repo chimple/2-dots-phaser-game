@@ -21,7 +21,7 @@ export default class Dot extends Phaser.Scene {
   private tweenBall1: Phaser.Tweens.Tween;
   private tweenBall2: Phaser.Tweens.Tween;
   private timer: any
-  private counter = 10;
+  private counter = 5;
   private timeUP: any;
   private timeText: any;
 
@@ -52,7 +52,7 @@ export default class Dot extends Phaser.Scene {
       this.timeText = this.make.text({
         x: this.width / 2.2,
         y: this.height * 0.08,
-        text: '10',
+        text: '5',
         style: {
             fontSize: '45px',
             color: '#000000',
@@ -100,7 +100,7 @@ export default class Dot extends Phaser.Scene {
       anchor: 0.0,
       targets: this.player,
       x: this.width / 2,
-      y: this.startY + 80 ,
+      y: this.startY + 83 ,
       yoyo: true,
       onComplete: () => {
         this.isEnd = true;
@@ -135,9 +135,9 @@ export default class Dot extends Phaser.Scene {
 
   timerEventCallBack() {
     if(this.counter > 0) {
+      
       this.timeText.setText(this.counter);
-        this.counter--;
-        
+      this.counter--;
     }
     else {
       this.sound.play("gameover");
@@ -194,7 +194,6 @@ export default class Dot extends Phaser.Scene {
         this.isBlue = false;
         this.player.setTexture(isUp ? "red1" : "red2").setData('color', 'red');
       }
-
     } else {
       if (Number(this.highScore) < this.score) {
         localStorage.setItem(this.localStorageName, this.score.toString());
@@ -224,7 +223,7 @@ export default class Dot extends Phaser.Scene {
   }
   onClick() {
     this.sound.play("tap");
-    this.counter = 10;
+    this.counter = 5;
     this.tween.play();
   }
 }
