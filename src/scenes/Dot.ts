@@ -165,8 +165,8 @@ export default class Dot extends Phaser.Scene {
   onCollition() {
     var isSameColor : boolean;
     var playerPos = this.width/2 + (this.startY + 83)
-    var ball1Pos = this.ball1.x + this.ball1.y;
-    var ball2Pos = this.ball2.x + this.ball2.y;
+    var ball1Pos = this.width/2 + this.ball1.y;
+    var ball2Pos = this.width/2 + this.ball2.y;
     this.sound.play("collide");
     if((playerPos - ball1Pos) > (playerPos - ball2Pos) ) {
       if(this.ball2.getData('color') === 
