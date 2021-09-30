@@ -189,10 +189,10 @@ export default class Dot extends Phaser.Scene {
       const value = Phaser.Math.Between(0, 1);
       if (value === 0) {
         this.isBlue = true;
-        this.player.setTexture("blue2").setData('color', 'blue');
+        this.player.setTexture(this.isUp ? "blue1" :"blue2").setData('color', 'blue');
       } else {
         this.isBlue = false;
-        this.player.setTexture("red2").setData('color', 'red');
+        this.player.setTexture(this.isUp ? "red1" :"red2").setData('color', 'red');
       }
   }
 
