@@ -254,6 +254,7 @@ export default class Dot extends Phaser.Scene {
     console.log(isSameColor);
     if (isSameColor) {
       this.score++;
+      this.counter = 3;
       this.scoreBoard.setText(
         (this.score < 10 ? "0" : "") + this.score.toString()
       );
@@ -288,7 +289,6 @@ export default class Dot extends Phaser.Scene {
   }
   onClick() {
     this.sound.play("tap");
-    this.counter = 3;
     this.tween.play();
   }
 }
