@@ -6,6 +6,7 @@ export default class Dot extends Phaser.Scene {
   private width: number;
   private height: number;
   private startY: number;
+  private y: number;
   private distance: number;
   private ball1: Phaser.GameObjects.Image;
   private ball2: Phaser.GameObjects.Image;
@@ -22,20 +23,23 @@ export default class Dot extends Phaser.Scene {
   private counter = 3;
   private timeUP: any;
   private timeText: any;
+  private isUp: boolean;
 
   create() {
+    this.isUp = false;
     this.width = this.scale.width;
     this.height = this.scale.height;
     this.startY = this.height / 4;
+    this.y = this.height / 2;
     this.distance = this.height * 0.75;
     this.createPlayer();
     this.ball1 = this.add
-      .image(this.width / 2.5, this.startY, "blueball")
+      .image(this.width / 2.5, this.y, "blueball")
       .setTexture('blueball')
       .setScale(0.5);
     this.ball1.setData('color', 'blue');
     this.ball2 = this.add
-      .image((this.width / 2.5) + 90 , this.startY, "redball")
+      .image((this.width / 2.5) + 90 , this.y, "redball")
       .setScale(0.5);
     this.ball2.setData('color', 'red');
     this.scoreBoard = this.add
@@ -46,8 +50,8 @@ export default class Dot extends Phaser.Scene {
       .setOrigin(0.5, 0);
 
       this.timeText = this.make.text({
-        x: this.width / 2.2,
-        y: this.height * 0.08,
+        x: this.width * 0.9,
+        y: 0.0,
         text: '3',
         style: {
             fontSize: '45px',
@@ -78,7 +82,7 @@ export default class Dot extends Phaser.Scene {
         repeat: -1,
         ease: 'Quintic.easeInOut',
         onUpdate: () =>
-            Phaser.Actions.RotateAround([this.ball1], { x: (this.width / 2.5) + 50.8, y: this.startY }, 0.12)
+            Phaser.Actions.RotateAround([this.ball1], { x: (this.width / 2.5) + 50.8, y: this.y }, 0.12)
     });
 
     this.tweenBall2 = this.tweens.add({
@@ -88,7 +92,7 @@ export default class Dot extends Phaser.Scene {
       repeat: -1,
       ease: 'Quintic.easeInOut',
       onUpdate: () =>
-          Phaser.Actions.RotateAround([this.ball2], { x: (this.width / 2.5) + 60, y: this.startY   }, 0.12)
+          Phaser.Actions.RotateAround([this.ball2], { x: (this.width / 2.5) + 60, y: this.y   }, 0.12)
   });
 
     
@@ -137,21 +141,51 @@ export default class Dot extends Phaser.Scene {
 }
 
   createPlayer() {
-    this.player = this.add
-      .image(this.width / 2, this.distance - 40 , "blue2")
+    const playerValue = Phaser.Math.Between(0, 1);
+    if(playerValue === 0) {
+      this.player = this.add
+      .image(this.width / 2, ((this.height*0.95) - 40) , "blue2")
       .setData('color', 'blue')
       .setScale(0.5);
+
+      this.isUp = false;
       this.tween = this.tweens.add({
         duration: 350,
         targets: this.player,
         x: this.width / 2,
-        y: this.startY + 83 ,
+        y: this.y + 83 ,
         yoyo: false,
         onComplete: () => {
           this.onCollition();
         },
         paused: true
       });
+    }
+    else {
+      this.player = this.add
+      .image(this.width / 2, 50.0 , "blue2")
+      .setData('color', 'blue')
+      .setScale(0.5);
+
+      this.isUp = true;
+
+      this.tween = this.tweens.add({
+        duration: 350,
+        targets: this.player,
+        x: this.width / 2,
+        y: this.y - 83 ,
+        yoyo: false,
+        onComplete: () => {
+          this.onCollition();
+        },
+        paused: true
+      });
+    }
+    // this.player = this.add
+    //   .image(this.width / 2, this.distance - 40 , "blue2")
+    //   .setData('color', 'blue')
+    //   .setScale(0.5);
+      
       const value = Phaser.Math.Between(0, 1);
       if (value === 0) {
         this.isBlue = true;
@@ -164,9 +198,9 @@ export default class Dot extends Phaser.Scene {
 
   onCollition() {
     var isSameColor : boolean;
-    var playerPos = this.width/2 + (this.startY + 83)
-    var ball1Pos = this.width/2 + this.ball1.y;
-    var ball2Pos = this.width/2 + this.ball2.y;
+    var playerPos = this.isUp ?this.width/2 + (this.y - 83) : this.width/2 + (this.y + 83);
+    var ball1Pos = this.isUp ? this.width/2 + this.ball2.y : this.width/2 + this.ball1.y;
+    var ball2Pos = this.isUp ? this.width/2 + this.ball1.y : this.width/2 + this.ball2.y;
     this.sound.play("collide");
     if((playerPos - ball1Pos) > (playerPos - ball2Pos) ) {
       if(this.ball2.getData('color') === 
@@ -177,7 +211,7 @@ export default class Dot extends Phaser.Scene {
           speed: 60,
           blendMode: 'MULTIPLY',
           x: this.width/2,
-          y: this.startY - 10,
+          y: this.y - 10,
           lifespan: 0.005
         });
         emitter.setScale(1.5);
@@ -200,7 +234,7 @@ export default class Dot extends Phaser.Scene {
           speed: 60,
           blendMode: 'MULTIPLY',
           x: this.width/2,
-          y: this.startY - 10,
+          y: this.y - 10,
           lifespan: 0.05
         });
         emitter.setScale(1.5);
