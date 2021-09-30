@@ -64,7 +64,7 @@ export default class Dot extends Phaser.Scene {
 
       this.timeUP = this.make.text({
         x: this.width / 4 ,
-        y: this.height / 2,
+        y: this.height / 3,
         text: '',
         style: {
             fontSize: '60px',
