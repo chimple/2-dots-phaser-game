@@ -181,11 +181,6 @@ export default class Dot extends Phaser.Scene {
         paused: true
       });
     }
-    // this.player = this.add
-    //   .image(this.width / 2, this.distance - 40 , "blue2")
-    //   .setData('color', 'blue')
-    //   .setScale(0.5);
-      
       const value = Phaser.Math.Between(0, 1);
       if (value === 0) {
         this.isBlue = true;
